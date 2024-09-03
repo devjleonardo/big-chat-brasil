@@ -41,6 +41,16 @@ O banco de dados PostgreSQL estará disponível em `localhost:5432`.
 
 Acessa a [Documentação da API](http://localhost:8080/swagger-ui/index.html).
 
+### Credenciais de Acesso
+
+- **Cliente:**
+  - **Email:** sandro@gmail.com
+  - **Senha:** 123
+
+- **Financeiro:**
+  - **Email:** leticia@financeiro.com
+  - **Senha:** 123
+
 ### Notas Adicionais
 
 - Este README assume que você está no mesmo diretório que o arquivo docker-compose.yml.
