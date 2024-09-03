@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=big_chat_brasil_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    ports:
+      - "5432:5432"
+    networks:
+      - jose-leonardo-network
+
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    networks:
+      - jose-leonardo-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/big_chat_brasil_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - SPRING_FLYWAY_LOCATIONS=classpath:db/migration,classpath:db/testdata
+      - SPRING_FLYWAY_ENABLED=true
+      - JWT_CHAVE=abcdefghijABCDEFGHIJabcdefghijABCDEFGHIJabcdefghijABCDEFGHIJabcdefghijABCDEFGHIJ
+      - JWT_EXPIRACAO=3600000
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - jose-leonardo-network
+
+networks:
+  jose-leonardo-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
